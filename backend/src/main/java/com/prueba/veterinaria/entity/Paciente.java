@@ -1,6 +1,7 @@
 package com.prueba.veterinaria.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -13,33 +14,42 @@ public class Paciente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Schema(description = "Nombre de la mascota", example = "Firulais")
+    @NotBlank(message = "El nombre de la mascota es obligatorio.")
     private String nombreMascota;
-    @Schema(description = "Especie de la mascota", example = "Perro")
+
+    @NotBlank(message = "La especie es obligatoria.")
     private String especie;
-    @Schema(description = "Raza de la mascota", example = "Labrador")
+
+    @NotBlank(message = "La raza es obligatoria.")
     private String raza;
-    @Schema(description = "Fecha de nacimiento de la mascota", example = "2020-01-01")
+
+    @NotNull(message = "La fecha de nacimiento es obligatoria.")
     private LocalDate fechaNacimiento;
 
-    @Schema(description = "Tipo de identificación del dueño", example = "DNI")
+    @NotBlank(message = "El tipo de identificación es obligatorio.")
     private String tipoIdentificacion;
-    @Schema(description = "Número de identificación del dueño", example = "12345678")
+
+    @NotBlank(message = "El número de identificación es obligatorio.")
     private String numeroIdentificacion;
-    @Schema(description = "Nombre del dueño", example = "Juan Perez")
+
+    @NotBlank(message = "El nombre del dueño es obligatorio.")
     private String nombreDueno;
 
-    @Schema(description = "Ciudad de residencia", example = "Ciudad")
+    @NotBlank(message = "La ciudad es obligatoria.")
     private String ciudad;
-    @Schema(description = "Dirección del dueño", example = "Calle 123")
+
+    @NotBlank(message = "La dirección es obligatoria.")
     private String direccion;
-    @Schema(description = "Teléfono de contacto", example = "123456789")
+
+    @NotBlank(message = "El teléfono es obligatorio.")
     private String telefono;
 
-    @Schema(description = "Fecha de registro del paciente", example = "2024-06-06")
     private LocalDate fechaRegistro;
 
+    public Paciente() {}
+
     // Getters y setters
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -75,4 +85,5 @@ public class Paciente {
 
     public LocalDate getFechaRegistro() { return fechaRegistro; }
     public void setFechaRegistro(LocalDate fechaRegistro) { this.fechaRegistro = fechaRegistro; }
+
 }
