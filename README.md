@@ -77,28 +77,28 @@ Frontend:
 
  1. Clonar el repositorio:
 
- https://github.com/usuario/veterinaria.git
- cd veterinaria
+* https://github.com/usuario/veterinaria.git
+* cd veterinaria
 
  2. Backend (Spring Boot):
 
- cd backend
- ./mvnw spring-boot:run o dede el IDE.
+* cd backend
+* ./mvnw spring-boot:run o dede el IDE.
 
 3. Frontend (Vue):
 
-cd ../frontend
-npm install
-npm run dev
+* cd ../frontend
+* npm install
+* npm run dev
 
 Credenciales de prueba:
 
-Usuario: admin
-Contraseña: admin123
+* Usuario: admin
+* Contraseña: admin123
 
 Autor:
 
-Desarrollado por Inge. Fabiolxp 
+* Desarrollado por Inge. Fabiolxp 
 
 
 
