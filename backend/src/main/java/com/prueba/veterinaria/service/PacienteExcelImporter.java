@@ -22,8 +22,7 @@ public class PacienteExcelImporter {
             for (Row row : sheet) {
                 if (firstRow) { firstRow = false; continue; } // Saltar encabezado
                 Paciente p = new Paciente();
-                Double idValue = getNumericCellValueOrNull(row, 0);
-                p.setId(idValue != null ? idValue.longValue() : null);
+                p.setId((long) getNumericCellValue(row, 0));
                 p.setNombreMascota(getStringCellValue(row, 1));
                 p.setEspecie(getStringCellValue(row, 2));
                 p.setRaza(getStringCellValue(row, 3));
@@ -46,11 +45,11 @@ public class PacienteExcelImporter {
         return cell != null ? cell.toString() : "";
     }
 
-    private Double getNumericCellValueOrNull(Row row, int col) {
+    private double getNumericCellValue(Row row, int col) {
         Cell cell = row.getCell(col);
-        if (cell == null || cell.getCellType() == CellType.BLANK) return null;
+        if (cell == null) return 0;
         if (cell.getCellType() == CellType.NUMERIC) return cell.getNumericCellValue();
-        try { return Double.parseDouble(cell.toString()); } catch (Exception e) { return null; }
+        try { return Double.parseDouble(cell.toString()); } catch (Exception e) { return 0; }
     }
 
     private LocalDate parseLocalDate(String value) {
