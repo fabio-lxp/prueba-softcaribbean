@@ -59,4 +59,19 @@ defineProps({ pacientes: Array })
     margin-bottom: 0;
   }
 }
+
+@media (min-width: 601px) {
+  .acciones-stack {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  .acciones-stack .btn {
+    width: auto;
+    min-width: 90px;
+    margin-bottom: 0;
+  }
+}
 </style> 
