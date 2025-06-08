@@ -5,7 +5,7 @@ import Sidebar from '../../src/components/Sidebar.vue'
 describe('Sidebar.vue', () => {
     it('se renderiza correctamente con logo y nombre', () => {
         const wrapper = mount(Sidebar)
-        expect(wrapper.text()).toContain('Veterinaria XYZ')
+        expect(wrapper.text()).toContain('Veterinaria Fabio')
         expect(wrapper.find('img.nav-logo').exists()).toBe(true)
     })
 

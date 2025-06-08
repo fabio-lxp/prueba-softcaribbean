@@ -50,6 +50,10 @@ Backend:
 * Apache POI (para archivos Excel)
 * JUnit + Mockito (pruebas)
 
+Arquitectura Backend: Spring Boot en capas.
+* (Controller, Service, Repository, Entity).
+* JPA: Se usa JPA (a través de Spring Data JPA) para el acceso y persistencia de datos.
+
 Frontend:
 
 * Vue 3 + Vite
