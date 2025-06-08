@@ -22,7 +22,10 @@ public class PacienteExcelImporter {
             for (Row row : sheet) {
                 if (firstRow) { firstRow = false; continue; } // Saltar encabezado
                 Paciente p = new Paciente();
-                p.setId((long) getNumericCellValue(row, 0));
+                double idValue = getNumericCellValue(row, 0);
+                if (idValue > 0) {
+                    p.setId((long) idValue);
+                }
                 p.setNombreMascota(getStringCellValue(row, 1));
                 p.setEspecie(getStringCellValue(row, 2));
                 p.setRaza(getStringCellValue(row, 3));

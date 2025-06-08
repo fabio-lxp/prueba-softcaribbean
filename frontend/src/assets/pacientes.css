@@ -1,0 +1,44 @@
+body {
+    background: #23272f;
+}
+
+.pacientes-container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+}
+
+.pacientes-container h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #23272f;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+}
+
+th,
+td {
+    padding: 0.85rem;
+    border-bottom: 1.5px solid #e0e0e0;
+    text-align: left;
+    color: #23272f;
+    font-size: 1rem;
+}
+
+th {
+    background: #f3f4f6;
+    color: #23272f;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
