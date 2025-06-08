@@ -58,8 +58,16 @@ async function login() {
 <style scoped>
 .login-bg {
   background: linear-gradient(135deg, #e0f7fa 0%, #b2dfdb 100%);
-  position: relative;
-  overflow: hidden;
+  min-height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
+  z-index: 0;
 }
 .login-card {
   border-radius: 24px;

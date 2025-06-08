@@ -1,7 +1,29 @@
 <template>
-  <div class="main-bg py-4">
-    <div class="container main-card py-4 px-3 px-md-5">
-      <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2 header-pacientes">
+  <div class="main-bg-fixed">
+    <div class="main-card-fixed">
+      <h2 class="display-6 fw-bold mb-4 mt-2 text-center">Pacientes</h2>
+      <PacienteTable :pacientes="pacientesPaginados" @edit="onEdit" @delete="onDelete" />
+      <!-- PAGINADOR -->
+      <nav v-if="totalPaginas > 1" class="mt-3 d-flex justify-content-center">
+        <ul class="pagination">
+          <li class="page-item" :class="{ disabled: paginaActual === 1 }">
+            <button class="page-link" @click="cambiarPagina(paginaActual - 1)" :disabled="paginaActual === 1">Anterior</button>
+          </li>
+          <li
+            v-for="n in totalPaginas"
+            :key="n"
+            class="page-item"
+            :class="{ active: paginaActual === n }"
+          >
+            <button class="page-link" @click="cambiarPagina(n)">{{ n }}</button>
+          </li>
+          <li class="page-item" :class="{ disabled: paginaActual === totalPaginas }">
+            <button class="page-link" @click="cambiarPagina(paginaActual + 1)" :disabled="paginaActual === totalPaginas">Siguiente</button>
+          </li>
+        </ul>
+      </nav>
+      <!-- BOTONES DE ACCIÓN -->
+      <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2 header-pacientes mt-3">
         <div class="d-flex gap-2 flex-wrap">
           <button class="btn btn-outline-primary d-flex align-items-center btn-action" @click="exportarPacientes">
             <i class="bi bi-file-earmark-excel me-2"></i>Exportar Excel
@@ -15,8 +37,6 @@
           </button>
         </div>
       </div>
-      <h2 class="display-6 fw-bold mb-4 mt-2 text-center">Pacientes</h2>
-      <PacienteTable :pacientes="pacientes" @edit="onEdit" @delete="onDelete" />
     </div>
     <!-- Huellas decorativas -->
     <div class="paw paw-main1"></div>
@@ -39,7 +59,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import PacienteTable from '../components/PacienteTable.vue'
 import PacienteForm from '../components/PacienteForm.vue'
 import { getPacientes, createPaciente, updatePaciente, deletePaciente, exportPacientes, importPacientes } from '../services/api'
@@ -49,9 +69,30 @@ let modalInstance = null
 const pacientes = ref([])
 const pacienteActual = ref(null)
 const modoModal = ref('crear')
+
+// Paginación frontend
+const paginaActual = ref(1)
+const pacientesPorPagina = 10
+const pacientesPaginados = computed(() => {
+  const inicio = (paginaActual.value - 1) * pacientesPorPagina
+  return pacientes.value.slice(inicio, inicio + pacientesPorPagina)
+})
+const totalPaginas = computed(() =>
+  Math.ceil(pacientes.value.length / pacientesPorPagina)
+)
+function cambiarPagina(nuevaPagina) {
+  if (nuevaPagina >= 1 && nuevaPagina <= totalPaginas.value) {
+    paginaActual.value = nuevaPagina
+  }
+}
+
 async function cargarPacientes() {
   const { data } = await getPacientes()
   pacientes.value = data
+  // Si la página actual queda fuera de rango tras eliminar/importar, vuelve a la última válida
+  if (paginaActual.value > totalPaginas.value) {
+    paginaActual.value = totalPaginas.value || 1
+  }
 }
 onMounted(() => {
   cargarPacientes()
@@ -62,7 +103,9 @@ onMounted(() => {
 function abrirModalCrear() {
   pacienteActual.value = null
   modoModal.value = 'crear'
-  modalInstance.show()
+  if (modalInstance && typeof modalInstance.show === 'function') {
+    modalInstance.show()
+  }
 }
 function onEdit(paciente) {
   pacienteActual.value = { ...paciente }
@@ -156,18 +199,27 @@ async function importarPacientes(e) {
 </script>
 
 <style scoped>
-.main-bg {
+.main-bg-fixed {
   min-height: 100vh;
+  width: 100vw;
   background: linear-gradient(135deg, #e0f7fa 0%, #b2dfdb 100%);
-  position: relative;
-  overflow-x: hidden;
+  /* position: fixed; */
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
+  z-index: 0;
 }
-.main-card {
+.main-card-fixed {
   background: #fff;
   border-radius: 24px;
   box-shadow: 0 4px 32px rgba(79, 138, 139, 0.10);
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  width: 95vw;
+  max-width: 700px;
+  padding: 2.5rem 1.5rem 2rem 1.5rem;
+  margin-top: 110px;
   position: relative;
   z-index: 2;
 }
@@ -198,12 +250,10 @@ async function importarPacientes(e) {
 }
 .paw-main1 { left: 2%; top: 8%; transform: rotate(-10deg); }
 .paw-main2 { right: 3%; bottom: 10%; transform: rotate(12deg); }
-@media (max-width: 900px) {
-  .main-card { padding: 1.5rem 0.5rem; }
-  .paw { width: 40px; height: 40px; }
-}
 @media (max-width: 600px) {
-  .main-card { margin-top: 0.5rem; margin-bottom: 0.5rem; }
-  .header-pacientes { padding-bottom: 0.5rem; }
+  .main-card-fixed {
+    padding: 1.2rem 0.3rem 1.2rem 0.3rem;
+    margin-top: 90px;
+  }
 }
 </style> 

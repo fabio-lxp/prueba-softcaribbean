@@ -1,2 +1,8 @@
 import { ref } from 'vue'
-export const isAuthenticated = ref(!!localStorage.getItem('auth')) 
+let initialAuth = false
+try {
+    initialAuth = !!localStorage.getItem('auth')
+} catch (e) {
+    initialAuth = false
+}
+export const isAuthenticated = ref(initialAuth) 
